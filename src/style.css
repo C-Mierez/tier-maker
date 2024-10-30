@@ -3,6 +3,15 @@
 @tailwind utilities;
 
 :root {
+    --color-s: #ff7f80;
+    --color-a: #ffc07f;
+    --color-b: #ffdf80;
+    --color-c: #fdff7f;
+    --color-d: #bfff7f;
+    --color-e: #7fff7f;
+    --color-f: #7fffff;
+    --color-default: #cfcfcf;
+
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
@@ -21,4 +30,18 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+main .list {
+    @apply max-w-screen-xl w-full bg-neutral-900 mx-auto flex flex-col select-none text-neutral-800;
+}
+
+main .list .tier {
+    @apply text-balance text-center font-bold text-xl flex aspect-square w-20 h-auto items-center justify-center flex-wrap p-1;
+    background-color: var(--color, var(--color-default));
+    word-break: break-all;
+}
+
+main .list .tier span {
+    @apply align-middle;
 }
