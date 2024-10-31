@@ -44,6 +44,10 @@ function bindEvents() {
     $selectionItems.addEventListener("dragover", handleTierDragOver);
     $selectionItems.addEventListener("dragleave", handleTierDragLeave);
 
+    $selectionItems.addEventListener("drop", handleDropFromDesktop);
+    $selectionItems.addEventListener("dragover", handleDragOverFromDesktop);
+    $selectionItems.addEventListener("dragleave", handleDragLeaveFromDesktop);
+
     // Reset button
     $resetTiersButton.addEventListener("click", handleResetTiers);
 }
@@ -179,6 +183,29 @@ function handleResetTiers() {
         $item.remove();
         $selectionItems.appendChild($item);
     });
+}
+
+function handleDropFromDesktop(e: DragEvent) {
+    e.preventDefault();
+
+    if (e.dataTransfer?.types.includes("Files")) {
+        $selectionItems.classList.remove("drag-over-desktop");
+
+        createItemsFromFiles(e.dataTransfer.files);
+    }
+}
+
+function handleDragOverFromDesktop(e: DragEvent) {
+    e.preventDefault();
+
+    if (e.dataTransfer?.types.includes("Files")) {
+        $selectionItems.classList.add("drag-over-desktop");
+    }
+}
+
+function handleDragLeaveFromDesktop(e: DragEvent) {
+    e.preventDefault();
+    $selectionItems.classList.remove("drag-over-desktop");
 }
 
 start();

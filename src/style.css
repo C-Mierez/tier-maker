@@ -49,7 +49,7 @@ section {
 }
 
 .list .tier > div {
-    @apply w-full transition-all duration-200 ease-in-out flex;
+    @apply w-full transition-all duration-200 ease-in-out flex flex-wrap;
 }
 
 .list .tier > div.drag-over,
@@ -77,7 +77,16 @@ section {
 }
 
 #selection-items {
-    @apply border border-neutral-500 min-h-40 w-full bg-neutral-900;
+    @apply border border-neutral-500 min-h-40 w-full bg-neutral-900 flex flex-wrap;
+
+    &.drag-over-desktop {
+        @apply bg-neutral-700 relative border-dashed border-green-400;
+
+        &::before {
+            content: "Drop Files";
+            @apply text-4xl absolute inset-0 grid place-items-center;
+        }
+    }
 }
 
 .tier-li {
