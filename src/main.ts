@@ -1,5 +1,6 @@
 import "./style.css";
 import { $, $$ } from "./utils";
+import html2canvas from "html2canvas-pro";
 
 // Constants
 const TierColorsVars = ["--color-s", "--color-a", "--color-b", "--color-c", "--color-d", "--color-e", "--color-f"];
@@ -10,6 +11,7 @@ const $tiers = $$(".tier") as NodeListOf<HTMLDivElement>;
 const $imageInput = $("#image-input") as HTMLInputElement;
 const $selectionItems = $("#selection-items") as HTMLDivElement;
 const $resetTiersButton = $("#reset-tiers") as HTMLButtonElement;
+const $downloadTiersButton = $("#download-tiers") as HTMLButtonElement;
 
 // Drag Behaviour
 let draggedItem: HTMLLIElement | null = null;
@@ -50,6 +52,9 @@ function bindEvents() {
 
     // Reset button
     $resetTiersButton.addEventListener("click", handleResetTiers);
+
+    // Download button
+    $downloadTiersButton.addEventListener("click", handleDownloadTiers);
 }
 
 function _createNewItem(src: string) {
@@ -206,6 +211,20 @@ function handleDragOverFromDesktop(e: DragEvent) {
 function handleDragLeaveFromDesktop(e: DragEvent) {
     e.preventDefault();
     $selectionItems.classList.remove("drag-over-desktop");
+}
+
+function handleDownloadTiers() {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    html2canvas($tierList).then((canvas) => {
+        ctx?.drawImage(canvas, 0, 0);
+        const imgURL = canvas.toDataURL("image/png");
+        const downloadLink = document.createElement("a");
+        downloadLink.href = imgURL;
+        downloadLink.download = "tiers.png";
+        downloadLink.click();
+    });
 }
 
 start();
