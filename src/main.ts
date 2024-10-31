@@ -9,6 +9,7 @@ const $tierList = $(".list") as HTMLDivElement;
 const $tiers = $$(".tier") as NodeListOf<HTMLDivElement>;
 const $imageInput = $("#image-input") as HTMLInputElement;
 const $selectionItems = $("#selection-items") as HTMLDivElement;
+const $resetTiersButton = $("#reset-tiers") as HTMLButtonElement;
 
 // Drag Behaviour
 let draggedItem: HTMLLIElement | null = null;
@@ -42,6 +43,9 @@ function bindEvents() {
     $selectionItems.addEventListener("drop", handleTierDrop);
     $selectionItems.addEventListener("dragover", handleTierDragOver);
     $selectionItems.addEventListener("dragleave", handleTierDragLeave);
+
+    // Reset button
+    $resetTiersButton.addEventListener("click", handleResetTiers);
 }
 
 function _createNewItem(src: string) {
@@ -66,8 +70,12 @@ function handleImageChange(e: Event) {
     const target = e.target;
     if (!(target instanceof HTMLInputElement)) return;
 
-    if (target.files) {
-        [...target.files].forEach((file) => {
+    createItemsFromFiles(target.files);
+}
+
+function createItemsFromFiles(files: FileList | null) {
+    if (files) {
+        [...files].forEach((file) => {
             const reader = new FileReader();
 
             reader.onload = (readerEvent) => {
@@ -163,6 +171,14 @@ function handleTierDragLeave(e: DragEvent) {
         target.querySelector(".drag-preview")?.remove();
         draggedPreview = null;
     }
+}
+
+function handleResetTiers() {
+    const $items = $$(".tier-li") as NodeListOf<HTMLLIElement>;
+    $items.forEach(($item) => {
+        $item.remove();
+        $selectionItems.appendChild($item);
+    });
 }
 
 start();
